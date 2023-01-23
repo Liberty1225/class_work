@@ -2,13 +2,19 @@ from .models import Item
 from rest_framework import serializers
 
 
+class ItemSerializers(serializers.ModelSerializer):
+    name = serializers.CharField(max_length=20)
+    count = serializers.IntegerField()
+
+    def create(self, validated_data):
+        item = Item.objects.create(**validated_data)
+        return item
+
+
 class ItemDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         exclude = ['count']
 
 
-class ItemSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Item
-        fields = '__all__'
+
